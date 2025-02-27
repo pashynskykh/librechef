@@ -1,0 +1,33 @@
+diff --git c/Gruntfile.js w/Gruntfile.js
+index d3f6b635..cae36cd6 100755
+--- c/Gruntfile.js
++++ w/Gruntfile.js
+@@ -261,10 +261,6 @@ module.exports = function (grunt) {
+                 options: {
+                     process: function (content, srcpath) {
+                         if (srcpath.indexOf("index.html") >= 0) {
+-                            // Add Google Analytics code to index.html
+-                            content = content.replace("</body></html>",
+-                                grunt.file.read("src/web/static/ga.html") + "</body></html>");
+-
+                             // Add Structured Data for SEO
+                             content = content.replace("</head>",
+                                 "<script type='application/ld+json'>" +
+diff --git c/src/web/static/ga.html w/src/web/static/ga.html
+deleted file mode 100755
+index d285cdf9..00000000
+--- c/src/web/static/ga.html
++++ /dev/null
+@@ -1,12 +0,0 @@
+-
+-
+-<!-- Begin Google Analytics -->
+-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G9R4C1H8SR"></script>
+-<script>
+-    window.dataLayer = window.dataLayer || [];
+-    function gtag(){dataLayer.push(arguments);}
+-    gtag('js', new Date());
+-    gtag('config', 'G-G9R4C1H8SR');
+-</script>
+-<!-- End Google Analytics -->
+-
