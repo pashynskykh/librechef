@@ -1,0 +1,68 @@
+name: build
+
+on:
+  push:
+    branches:
+    - main
+
+env:
+  VERSION: v10.19.4
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Download CyberChef source code
+      run: |
+        wget https://github.com/gchq/CyberChef/archive/refs/tags/${{ env.VERSION }}.tar.gz
+        tar -xzf ${{ env.VERSION }}.tar.gz --strip-components=1
+
+    - name: Apply patches
+      run: git apply *.patch
+
+    - name: Set node version
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+
+    - name: Install
+      run: |
+        export DETECT_CHROMEDRIVER_VERSION=true
+        npm install
+        npm run setheapsize
+
+    - name: Lint
+      run: npx grunt lint
+
+    - name: Unit Tests
+      run: |
+        npm test
+        npm run testnodeconsumer
+
+    - name: Production Build
+      if: success()
+      run: npx grunt prod
+
+    - name: Generate sitemap
+      run: npx grunt exec:sitemap
+
+    - name: UI Tests
+      if: success()
+      run: |
+        sudo apt-get install xvfb
+        xvfb-run --server-args="-screen 0 1200x800x24" npx grunt testui
+
+    - name: Prepare for GitHub Pages
+      if: success()
+      run: npx grunt copy:ghPages
+
+    - name: Deploy to GitHub Pages
+      if: success()
+      uses: crazy-max/ghaction-github-pages@v3
+      with:
+        target_branch: main
+        build_dir: ./build/prod
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
