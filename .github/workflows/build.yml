@@ -43,7 +43,7 @@ jobs:
 
     - name: Production Build
       if: success()
-      run: npx grunt prod --msg="This instance of CyberChef respects your privacy and has all analytics code removed. The source code for patches is available <a href='https://codeberg.org/pashynskykh/librecych'>here</a>."
+      run: npx grunt prod --msg="This instance of CyberChef respects your privacy and has all analytics code removed. The source code for patches is available <a href='https://codeberg.org/pashynskykh/librechef'>here</a>."
 
     - name: Generate sitemap
       run: npx grunt exec:sitemap
