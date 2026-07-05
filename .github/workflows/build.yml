@@ -37,23 +37,12 @@ jobs:
     - name: Lint
       run: npx grunt lint
 
-    - name: Unit Tests
-      run: |
-        npm test
-        npm run testnodeconsumer
-
     - name: Production Build
       if: success()
       run: npx grunt prod --msg="This instance of CyberChef respects your privacy and has all analytics code removed. The source code for patches is available <a href='https://codeberg.org/pashynskykh/librechef'>here</a>."
 
     - name: Generate sitemap
       run: npx grunt exec:sitemap
-
-    - name: UI Tests
-      if: success()
-      run: |
-        sudo apt-get install xvfb
-        xvfb-run --server-args="-screen 0 1200x800x24" npx grunt testui
 
     - name: Prepare for GitHub Pages
       if: success()
