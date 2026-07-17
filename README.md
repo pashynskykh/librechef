@@ -4,7 +4,7 @@ The goal of this project is to provide patches for [CyberChef](https://github.co
 
 ## Online Demo
 
-You can access the hosted version of the project [here](https://librechef.pashynskykh.com/).
+You can access the hosted version of the project [here](https://chef.pashynskykh.com/).
 
 ## License
 
